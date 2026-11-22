@@ -1,0 +1,39 @@
+<div class="container" *ngIf="product">
+    <div class="row">
+        <div class="col-md-6">
+            <mat-card class="product-card">
+  <mat-card-header>
+    <div mat-card-avatar class="d-flex justify-content-between">
+    <mat-card-title>{{product.name}}</mat-card-title>
+    <mat-card-subtitle class="bage badge-success">Rating:{{product.rating}}</mat-card-subtitle>
+    </div>
+
+  </mat-card-header>
+  <img mat-card-image [src]="product.image" alt="Photo of a Shiba Inu">
+  <mat-card-content>
+    <p>
+      
+    </p>
+  </mat-card-content>
+  <mat-card-actions class="d-flex justify-content-between">
+    <button *ngIf="authService.canEditproduct()" mat-raised-button color="primary" (click)="onEdit(product.id)"  >Edit</button>
+    <button *ngIf="authService.canDeleteProduct()" mat-raised-button color="warn" (click)="onRemove(productId)">Remove</button>
+  </mat-card-actions>
+</mat-card>
+        </div>
+        <div class="col-md-5">
+            <div class="card">
+                <div class="mat-card-header">
+                    <h1>Basic Informatrion</h1>
+                </div>
+                <div class="card-body">
+                    <p><strong>Category:{{product.category}}</strong></p>
+                    <h1><strong class="badge badge-info">Price:${{product.price}}</strong></h1>
+                    <p class="badge badge-danger">Stock:{{product.inStock}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,299 @@
+
+<main class="auth-page">
+  <section class="auth-shell" aria-label="Account access">
+
+    <!-- Left visual panel -->
+    <div class="visual-panel">
+
+      <div class="brand">
+        <span class="brand-mark">✳</span> northstar
+      </div>
+
+      <div class="visual-copy">
+        <span class="eyebrow">A little more you</span>
+
+        <h1>
+          Make room<br>
+          for what<br>
+          <em>moves you.</em>
+        </h1>
+
+        <p>Your next favorite thing is just around the corner.</p>
+      </div>
+
+      <div class="art-orbit orbit-one"></div>
+      <div class="art-orbit orbit-two"></div>
+      <div class="art-sun"></div>
+
+      <div class="visual-note">
+        <span class="note-dot"></span>
+        Thoughtfully made. Always.
+      </div>
+
+      <div class="visual-index">
+        01 <span></span> 03
+      </div>
+
+    </div>
+
+    <!-- Right form panel -->
+    <div class="form-panel">
+
+      <div class="mobile-brand">
+        <span class="brand-mark">✳</span> northstar
+      </div>
+
+      <div class="form-content">
+
+        <!-- Heading -->
+        <div class="form-heading">
+
+          <span class="eyebrow">
+            {{ isSignup ? 'YOUR STORY STARTS HERE' : 'WELCOME BACK' }}
+          </span>
+
+          <h2>
+            {{ isSignup ? 'Create your account' : 'Good to see you.' }}
+          </h2>
+
+          <p>
+            {{ isSignup
+              ? 'Join us and find your next favorite.'
+              : 'Sign in to pick up where you left off.' }}
+          </p>
+
+        </div>
+
+        <!-- Mode switch -->
+        <div class="mode-switch" role="tablist" aria-label="Choose account action">
+
+          <button
+            type="button"
+            role="tab"
+            [attr.aria-selected]="!isSignup"
+            [class.selected]="!isSignup"
+            (click)="setMode(false)">
+            Sign in
+          </button>
+
+          <button
+            type="button"
+            role="tab"
+            [attr.aria-selected]="isSignup"
+            [class.selected]="isSignup"
+            (click)="setMode(true)">
+            Create account
+          </button>
+
+        </div>
+
+        <!-- Reactive form -->
+        <form
+          [formGroup]="authForm"
+          (ngSubmit)="submit()"
+          novalidate>
+
+          <!-- Full name -->
+          <label class="field" *ngIf="isSignup">
+
+            <span>Your name</span>
+
+            <input
+              type="text"
+              formControlName="fullName"
+              placeholder="e.g. Alex Morgan"
+              autocomplete="name">
+
+            <small
+              class="error"
+              *ngIf="authForm.get('fullName')?.invalid &&
+                     authForm.get('fullName')?.touched">
+              Please enter your name.
+            </small>
+
+          </label>
+
+          <label class="field" *ngIf="isSignup">
+            <span>User role</span>
+            <select class="field-select" formControlName="userRole">
+              <option value="buyer">buyer</option>
+              <option value="Admin">Admin</option>
+              <option value="superAdmin">superAdmin</option>
+            </select>
+          </label>
+
+          <!-- Email -->
+          <label class="field">
+
+            <span>Email address</span>
+
+            <input
+              type="email"
+              formControlName="email"
+              placeholder="you@example.com"
+              autocomplete="email">
+
+            <small
+              class="error"
+              *ngIf="authForm.get('email')?.touched &&
+                     authForm.get('email')?.hasError('required')">
+              Email address is required.
+            </small>
+
+            <small
+              class="error"
+              *ngIf="authForm.get('email')?.touched &&
+                     authForm.get('email')?.hasError('email')">
+              Enter a valid email address.
+            </small>
+
+          </label>
+
+          <!-- Password -->
+          <label class="field">
+
+            <span class="field-label">
+
+              Password
+
+              <button
+                class="text-button"
+                type="button"
+                *ngIf="!isSignup"
+                (click)="message = 'Password reset is not connected yet.'">
+                Forgot password?
+              </button>
+
+            </span>
+
+            <span class="password-wrap">
+
+              <input
+                [type]="showPassword ? 'text' : 'password'"
+                formControlName="password"
+                placeholder="At least 8 characters"
+                [attr.autocomplete]="isSignup
+                  ? 'new-password'
+                  : 'current-password'">
+
+              <button
+                type="button"
+                class="eye-button"
+                (click)="showPassword = !showPassword"
+                [attr.aria-label]="showPassword
+                  ? 'Hide password'
+                  : 'Show password'">
+
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M2.5 12s3.4-6 9.5-6 9.5 6 9.5 6-3.4 6-9.5 6-9.5-6-9.5-6Z"/>
+                  <circle cx="12" cy="12" r="2.7"/>
+                </svg>
+
+              </button>
+
+            </span>
+
+            <small
+              class="error"
+              *ngIf="authForm.get('password')?.touched &&
+                     authForm.get('password')?.hasError('required')">
+              Password is required.
+            </small>
+
+            <small
+              class="error"
+              *ngIf="authForm.get('password')?.touched &&
+                     authForm.get('password')?.hasError('minlength')">
+              Password must contain at least 8 characters.
+            </small>
+
+          </label>
+
+          <!-- Remember me -->
+          <label class="check-row" *ngIf="!isSignup">
+
+            <input
+              type="checkbox"
+              formControlName="remember">
+
+            <span>Keep me signed in</span>
+
+          </label>
+
+          <!-- Updates -->
+          <label class="check-row" *ngIf="isSignup">
+
+            <input
+              type="checkbox"
+              formControlName="updates">
+
+            <span>Send me occasional notes and new arrivals</span>
+
+          </label>
+
+          <!-- Submit -->
+          <button
+            class="submit-button"
+            type="submit"
+            [disabled]="loading">
+
+            {{ loading
+              ? 'Please wait...'
+              : isSignup
+                ? 'Create my account'
+                : 'Sign in' }}
+
+            <span *ngIf="!loading" aria-hidden="true">↗</span>
+
+          </button>
+
+          <!-- Feedback -->
+          <p
+            class="feedback"
+            *ngIf="message"
+            [class.success]="messageType === 'success'"
+            [class.error]="messageType === 'error'"
+            role="status">
+
+            {{ message }}
+
+          </p>
+
+        </form>
+
+        <!-- Divider -->
+        <div class="divider">
+          <span></span>
+          <small>OR CONTINUE WITH</small>
+          <span></span>
+        </div>
+
+        <!-- Google login placeholder -->
+        <button
+          type="button"
+          class="google-button"
+          (click)="message = 'Social sign-in is not connected yet.'">
+
+          <span class="google-g">G</span>
+          Continue with Google
+
+        </button>
+
+        <!-- Legal -->
+        <p class="legal">
+          By continuing, you agree to our
+          <a href="#terms">Terms</a> and
+          <a href="#privacy">Privacy Policy</a>.
+        </p>
+
+      </div>
+
+      <div class="form-footer">
+        <span>© 2024 Northstar Studio</span>
+        <a href="#help">Need a hand?</a>
+      </div>
+
+    </div>
+
+  </section>
+</main>

@@ -1,0 +1,44 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h1 class="badge badge-info">Product Form</h1>
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="productForm" (ngSubmit)="onAdd()">
+                        <div class="form-group">
+                            <label for="name">Name*</label>
+                            <input type="text" class="form-control" formControlName="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="image">Image*</label>
+                            <input type="text" class="form-control" formControlName="image">
+                        </div>
+                        <div class="form-group">
+                            <label for="inStock">InStock*</label>
+                            <select class="form-control" formControlName="inStock">
+                                <option value="true">In Stock</option>
+                                <option value="false">Out Of Stock</option>
+                            </select>                     
+                        </div>
+                        <div class="form-group">
+                            <label for="category">Category*</label>
+                            <input type="text" class="form-control" formControlName="category">
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Price*</label>
+                            <input type="text" class="form-control" formControlName="price">
+                        </div>
+                        <div class="form-group">
+                            <label for="rating">Rating*</label>
+                            <input  type="text" class="form-control" formControlName="rating">
+                        </div>
+                        <button *ngIf="!isInEditMode"    class="btn btn-sm btn-primary">Add product</button>
+                        <button *ngIf="isInEditMode"  class="btn btn-danger" (click)="onUpdate()" type="button">Update Product</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
